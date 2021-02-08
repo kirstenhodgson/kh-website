@@ -15,4 +15,4 @@ output:
   postcards::jolla
 ---
  
-Hi :) !
+I am a graduate student at the Bren School of Environmental Science & Management, UC Santa Barbara, completing my Master of Environmental Science and Management with a specialization in Conservation Planning and a focus in Strategic Environmental Communications. I enjoy reading, baking (anything chocolate!), trying out new data viz techniques, and hanging out around trees.

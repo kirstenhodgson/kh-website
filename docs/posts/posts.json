@@ -1,0 +1,19 @@
+[
+  {
+    "path": "posts/2021-02-08-welcome/",
+    "title": "Welcome",
+    "description": "This is my very first blog post.",
+    "author": [
+      {
+        "name": "Kirsten Hodgson",
+        "url": {}
+      }
+    ],
+    "date": "2021-02-08",
+    "categories": [],
+    "contents": "\nThis is my very first blog post!\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-02-08T12:35:33-08:00",
+    "input_file": {}
+  }
+]
