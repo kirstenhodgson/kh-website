@@ -1,0 +1,8 @@
+---
+title: "Resume"
+image: "kirsten.jpeg"
+output:
+  postcards::jolla
+---
+ 
+This is going to be my resume (but I'm currently editing my resume :) )

@@ -1,0 +1,92 @@
+---
+title: "Visualizing spatial data: `tmap` and chloropleths"
+description: |
+  Wrangling California oil spill data and visualizing spill locations.
+author:
+  - name: Kirsten Hodgson
+    url: {}
+date: 02-25-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(sf)
+library(tmap)
+library(viridis)
+```
+
+```{r}
+#Read in the oil spill layer:
+ca_oilspill <- read_sf(here("data", "ds394"), layer = "ds394") %>% 
+  clean_names() %>% 
+  rename(name = localecoun)
+
+#Check the projection:
+#st_crs(ca_oilspill) #NAD 83 / California Albers, EPSG 3310
+
+#Read in the CA county data shapefile
+ca_counties <- read_sf(here("data", "ca_counties"), layer = "CA_Counties_TIGER2016") %>% 
+  clean_names() %>% 
+  select(name)
+
+#Check projection
+#st_crs(ca_counties) #WGS 84 / Pseudo-Mercator
+#Reset projection
+ca_counties <- st_transform(ca_counties, st_crs(ca_oilspill))
+#st_crs(ca_counties)
+```
+
+### 1. Exploratory oil spill location visualization using `tmap`
+
+```{r}
+tmap_mode("view")
+
+tm_shape(ca_oilspill) + #Make a tmap map of oilspill locations
+  tm_dots() + #Where dots represent oil spill events
+  tm_basemap("Esri.WorldTopoMap") #And the base map is ESRI's topomap
+```
+
+**Figure 1.** Exploratory interactive map of all (inland and marine) oil spill locations in California in 2008.
+
+### 2. Chloropleth of inland oil spill events in 2008
+
+```{r, fig.align = "center"}
+#Wrangling: Want counts of inland oil spill events by county in 2008
+modoc <- ca_counties %>% 
+  filter(name == "Modoc") #Make a df with just modoc county for use later
+
+ca_county_oilspill <- ca_counties %>% #Join the two dataframes together
+  st_join(ca_oilspill)
+
+ca_oilspill_counts <- ca_county_oilspill %>% #Filter for only inland oil spills
+  filter(inlandmari == "Inland") %>% 
+ group_by(name.y) %>% #Group by county name
+  summarize(spill_count = n())  #Count oil spill events by county
+
+  
+ggplot(data = ca_oilspill_counts) + #Graph from this count data
+  geom_sf(aes(fill = spill_count), color = "white", size = 0.1) + #With fill depending on count
+  scale_fill_viridis() + #Setting the color gradient from viridis package
+  theme_void() + #With a void theme
+  labs(fill = "Number of oil spills", #Label for the key
+       title = "California inland oil spill by county, 2008") + #Label for the map
+  geom_sf(data = modoc, fill = "lightgray", color = "white", size = 0.1) #Add Modoc county (no spills)
+```
+**Figure 2.** Chloropleth of inland oil spill events in 2008 by California county. Modoc county (gray) had no inland oil spill events in 2008. Los Angeles (yellow) and San Mateo (teal) counties had the two highest counts of inland oil spills (340 and 173, respectively).
+
+
+#### Data cited:
+##### California county shapefile data:
+"TIGER/Line Shapefiles." *U.S. Census Bureau.* Sourced through California Open Data Portal, https://data.ca.gov/dataset/ca-geographic-boundaries
+
+##### California oil spill data:
+"Oill Spill Incident Trackin [ds394]". *California Department of Fish and Game, Office of Spill Prevention and Response.* 2008. https://map.dfg.ca.gov/metadata/ds0394.html

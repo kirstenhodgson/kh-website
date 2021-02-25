@@ -1,0 +1,185 @@
+---
+title: "Text data mining and analysis"
+description: |
+  Creating word clouds and sentiment analysis for J.K. Rowling's *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*.
+author:
+  - name: Kirsten Hodgson
+    url: {}
+date: 02-25-2021
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(tidytext)
+library(textdata)
+library(harrypotter)
+library(ggwordcloud)
+library(patchwork)
+```
+
+```{r message = F, warning = F}
+ps_tidy <- data.frame(philosophers_stone) %>% #Primary wrangling for philosopher's stone
+  mutate(text_full = str_split(philosophers_stone, pattern = "\\n")) %>% #need two \ here to override operator
+  unnest(text_full) %>% #Unnest text column
+  mutate(text_full = str_trim(text_full)) #Remove whitespace before and after string
+
+dh_tidy <- data.frame(deathly_hallows) %>% #Do the same for deathly hallows
+  mutate(text_full = str_split(deathly_hallows, pattern = "\\n")) %>% #need two \ here to override operator
+  unnest(text_full) %>% 
+  mutate(text_full = str_trim(text_full))
+
+#Create a chapter column and fill it in with sequential numbers:
+ps_df <- ps_tidy %>% 
+  mutate(chapter = 1:n())
+
+dh_df <- dh_tidy %>% 
+  mutate(chapter = 1:n())
+
+#Create tokens by unnesting text into a word column, then remove original
+ps_tokens <- ps_df %>% 
+  unnest_tokens(word, text_full) %>% 
+  dplyr::select(-philosophers_stone)
+
+#ps_count <- ps_tokens %>% 
+ # count(chapter, word)
+
+dh_tokens <- dh_df %>% 
+  unnest_tokens(word, text_full) %>% 
+  dplyr::select(-deathly_hallows)
+
+#Remove stop words with `anti_join` and get counts of the nonstop words for both books
+ps_nonstop_words <- ps_tokens %>% 
+  anti_join(stop_words) 
+
+ps_nonstop_counts <- ps_nonstop_words %>% count(word)
+
+dh_nonstop_words <- dh_tokens %>% 
+  anti_join(stop_words) 
+
+dh_nonstop_counts <- dh_nonstop_words %>% count(word)
+```
+
+### Word Clouds
+
+##### Exploring the most common words in *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*
+```{r, fig.align="center"}
+#Find the top 100 words in deathly hallows and set the angle for 30% of them to 90 degrees
+dh_top_100 <-
+  dh_nonstop_counts %>% 
+  arrange(-n) %>% 
+  slice(1:100) %>% 
+  mutate(angle = 90 * sample(c(0,1), n(), replace = TRUE, prob = c(70,30)))
+
+#Create a word cloud for Deathly Hallows where word color and size depends on frequency
+dh_cloud <- ggplot(dh_top_100, aes(label = word, angle = angle)) +
+  geom_text_wordcloud(aes(color = n, size = n), shape = "circle", eccentricity = 1) +
+  scale_size_area(max_size = 10) +
+  theme_void() +
+  scale_color_gradient(low = "darkred", high = "red")
+
+#Find the top 100 words in philosopher's stoen and set the angle for 30% of them to 90 degrees
+ps_top_100 <-
+  ps_nonstop_counts %>% 
+  arrange(-n) %>% 
+  slice(1:100) %>% 
+  mutate(angle = 90 * sample(c(0,1), n(), replace = TRUE, prob = c(70,30)))
+
+#Create a word cloud for PS where word color and size depends on frequency
+ps_cloud <- ggplot(ps_top_100, aes(label = word, angle = angle)) +
+  geom_text_wordcloud(aes(color = n, size = n), shape = "circle", eccentricity = 1) +
+  scale_size_area(max_size = 10) +
+  theme_void() +
+  scale_color_gradient(low = "darkred", high = "red")
+
+#Use `patchwork` package to put word clouds into one graphic and then call it
+ps_dh_cloud <- (ps_cloud | dh_cloud)
+
+ps_dh_cloud
+```
+**Figure 1.** Word cloud exploration of the most common words in *Harry Potter and the Philosopher's Stone* (left) and *Harry Potter and the Deathly Hallows* (right). The most common word in both novels is, unsurprisingly, "Harry". Also common are the names of other main characters such as Hermione, Ron, and Dumbledore. Another valuable analysis would be to remove these common character names prior to counting word incidence.
+
+### Sentiment Analysis
+
+```{r message = F, warning = F}
+#Get the afinn lexicon data
+afinn <- get_sentiments("afinn")
+
+#Merge afinn lexicon with nonstop words for PS, then get counts for afinn values
+ps_afinn <- ps_nonstop_words %>% 
+  inner_join(get_sentiments("afinn"))
+
+ps_afinn_counts <- ps_afinn %>% 
+  count(chapter, value)
+
+#Get mean afinn values for each chapter of the whole book, and create a sign column to identify whether they are positive or negative means
+ps_afinn_means <- ps_afinn %>% 
+  group_by(chapter) %>% 
+  summarize(mean_afinn = mean(value)) %>% 
+  mutate(sign = case_when(mean_afinn >= 0 ~ "positive",
+                          mean_afinn < 0 ~ "negative"))
+
+#Merge afinn lexicon with nonstop words for DH, then get counts for afinn values
+dh_afinn <- dh_nonstop_words %>% 
+  inner_join(get_sentiments("afinn"))
+
+dh_afinn_counts <- dh_afinn %>% 
+  count(chapter, value)
+
+#Get mean afinn values for each chapter of the whole book, and create a sign column to identify whether they are positive or negative means
+dh_afinn_means <- dh_afinn %>% 
+  group_by(chapter) %>% 
+  summarize(mean_afinn = mean(value)) %>% 
+  mutate(sign = case_when(mean_afinn >= 0 ~ "positive",
+                          mean_afinn < 0 ~ "negative"))
+```
+
+```{r, fig.align = "center"}
+#Plot the mean afinn values for both books separately, with red colors for negative values and gold for positive
+ps_afinn_plot <- ggplot(data = ps_afinn_means, 
+                        aes(x = chapter, 
+                            y = mean_afinn)) +
+  geom_col(aes(fill = sign)) +
+  theme_minimal() +
+  scale_fill_manual(values = c("darkred", "goldenrod2")) +
+  labs(x = "Chapter", 
+       y = "Mean AFINN Lexicon Score", 
+       title = "Philosopher's Stone") +
+  theme(legend.position = "none")
+
+dh_afinn_plot <- ggplot(data = dh_afinn_means, 
+                        aes(x = chapter, 
+                            y = mean_afinn)) +
+  geom_col(aes(fill = sign))  +
+  theme_minimal() +
+  scale_fill_manual(values = c("darkred", "goldenrod2")) +
+  labs(x = "Chapter", 
+       y = "Mean AFINN Lexicon Score", 
+       title = "Deathly Hallows") +
+  theme(legend.position = "none")
+
+#Use patchwork to merge the two graphics into one and then call it
+ps_dh_afinn_plot <- (ps_afinn_plot | dh_afinn_plot)
+
+ps_dh_afinn_plot
+```
+**Figure 2.** Sentiment analysis by chapter of *Harry Potter and the Philosopher's Stone* (left) and *Harry Potter and the Deathly Hallows* (right) using the AFINN Sentiment Lexicon to calculate mean chapter sentiment on a scale of positivity/negativity. Both books are overwhelmingly negative, though *Harry Potter and the Deathly Hallows* is more so, with a larger number of chapters having more negative mean scores. In both books, only two chapters have positive mean scores. Notably, the last chapter of *Harry Potter and the Deathly Hallows* is mean positive. This aligns with the text as this chapter is the epilogue, which ends the entire series with the line "All was well".
+
+#### Data cited:
+
+Data mined from the *Harry Potter* series:
+
+Rowling, J.K. *Harry Potter and the Philosopher’s Stone*. London: Bloomsbury, 1997. Print.
+
+Rowling, J.K. *Harry Potter and the Deathly Hallows*. London: Bloomsbury, 2007. Print.
+
+Data made available by:
+
+Boehmke, B. (2016). harrypotter: An R Package for J.K. Rowling's Harry Potter Series. https://github.com/bradleyboehmke/harrypotter
+

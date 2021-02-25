@@ -3,13 +3,11 @@ title: "About Me"
 image: kirsten.jpeg
 links:
   - label: LinkedIn
-    url: "https://linkedin.com/"
-  - label: Twitter
-    url: "https://twitter.com/"
+    url: "https://www.linkedin.com/in/kirsten-hodgson-a514a0163/"
   - label: GitHub
-    url: "https://github.com/"
+    url: "https://github.com/kirstenhodgson"
   - label: Email
-    url: "mailto:email@email.com"
+    url: "mailto:kirstenarhodgson@gmail.com"
 output:
   postcards::jolla
 ---
@@ -20,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
  
 #### Interests:
  
-I am interested in forestry, fire ecology, and global change. Particularly, I am interested in the intricacies of managing forested lands for ecological resilience using fire, and the ways in which management practices intersect with the needs of communities living in or near fire-risk areas. I am specializing in Conservation Plannning at the Bren School with the goal of working in environmental planning in the future. I am pursuing a focus in strategic environmental communications because developing effective management plans depends on building open relationships and clear communication with communities.
+I am interested in forestry, fire ecology, and global change. Particularly, I am interested in the intricacies of managing forested lands for ecological resilience using fire, and the ways in which management practices intersect with the needs of communities living in or near fire-risk areas. I am specializing in Conservation Plannning at the Bren School with the goal of working in environmental planning in the future, and am pursuing a focus in strategic environmental communications because developing effective management plans depends on building open relationships and clear communication with communities.
 
 #### Experience:
 
@@ -30,3 +28,5 @@ While completing my Bachelor's in biological science at UC Davis, I worked on fi
 
 
 At Bren, I have taken courses in data analysis, GIS, and forest sustainability. I plan to continue to build these technical skills throughout the rest of my time in school.
+
+![My dogs, Piper (left) and Macy (right).](images/macypiper.JPG){width=75%}

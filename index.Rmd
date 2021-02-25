@@ -4,13 +4,11 @@ image: "kirsten.jpeg"
 site: distill::distill_website
 links:
   - label: LinkedIn
-    url: "https://linkedin.com/"
-  - label: Twitter
-    url: "https://twitter.com/"
+    url: "https://www.linkedin.com/in/kirsten-hodgson-a514a0163/"
   - label: GitHub
-    url: "https://github.com/"
+    url: "https://github.com/kirstenhodgson"
   - label: Email
-    url: "mailto:email@email.com"
+    url: "mailto:kirstenarhodgson@gmail.com"
 output:
   postcards::jolla
 ---
