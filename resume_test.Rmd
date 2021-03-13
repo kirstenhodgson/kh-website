@@ -1,16 +1,20 @@
 ---
-title: "Kirsten Hodgson"
-output: html_document
+title: "Resume"
+image: "kirsten.jpeg"
+output: 
+  postcards::trestles
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#### Kirsten Hodgson
+
 kirstenarhodgson@gmail.com | (707) 364-1049 | Sonoma, CA | [LinkedIn](https://www.linkedin.com/in/kirsten-hodgson-a514a0163/)
 
 
-#### **EDUCATION**
+##### **EDUCATION**
 
 
 | **Master of Environmental Science and Management**, 4.0 GPA (Expected June 2022)
@@ -28,7 +32,7 @@ kirstenarhodgson@gmail.com | (707) 364-1049 | Sonoma, CA | [LinkedIn](https://ww
 - *Emphasis:* Evolution, Ecology, and Biodiversity
 - *Honors/Awards:* Graduated with highest honors (2018), Regents Scholarship (2014-2018), Citation Award for Outstanding Performance in Biological Sciences (2018)
 
-#### **ENVIRONMENTAL & COMMUNICATION EXPERIENCE**
+##### **ENVIRONMENTAL & COMMUNICATION EXPERIENCE**
 
 
 | **Sonoma Water**, Santa Rosa, CA (12/18-9/20)
@@ -58,7 +62,7 @@ children from kindergarten through high school to inspire next generation of cha
 - Updated existing programs through activity development and modification in cooperation with
 other staff, particularly to increase compliance with new NGSS teaching standards
 
-#### **SKILLS & AFFILIATIONS**
+##### **SKILLS & AFFILIATIONS**
 
 
 | **Computer:** Microsoft Office (Excel, Word, Powerpoint)
