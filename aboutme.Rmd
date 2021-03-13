@@ -1,6 +1,6 @@
 ---
 title: "About Me"
-image: "trees.jpg"
+image: "trees.JPG"
 links:
   - label: LinkedIn
     url: "https://www.linkedin.com/in/kirsten-hodgson-a514a0163/"
@@ -30,7 +30,7 @@ After graduating, I worked as an environmental educator at Sonoma Water, the wat
  
 I am interested in forestry, fire ecology, and global change. Particularly, I am interested in the intricacies of managing forested lands for ecological resilience using fire, and the ways in which management practices intersect with the needs of communities living in or near fire-risk areas. I am specializing in Conservation Planning at the Bren School with the goal of working in environmental planning in the future, and am pursuing a focus in strategic environmental communications because developing effective management plans depends on building open relationships and clear communication with communities.
 
-![The redwood grove at Sonoma Water's education center, in the early morning before the arrivalof fifth grade field students.](images/SCWA.jpg){width=100%}
+![The redwood grove at Sonoma Water's education center, in the early morning before the arrival of fifth grade field students.](images/SCWA.JPG){width=100%}
 
 Outside of school, I love reading, baking, and being outside. Many activities will do, but I particularly love hiking and playing soccer, and when the world reopens I am excited to be able to travel again!
 
