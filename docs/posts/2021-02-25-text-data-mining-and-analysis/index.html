@@ -91,8 +91,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2021-02-25"/>
-<meta property="article:created" itemprop="dateCreated" content="2021-02-25"/>
+<meta property="article:published" itemprop="datePublished" content="2021-03-12"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-03-12"/>
 <meta name="article:author" content="Kirsten Hodgson"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -111,12 +111,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Text data mining and analysis"]},{"type":"character","attributes":{},"value":["Creating word clouds and sentiment analysis for J.K. Rowling's *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kirsten Hodgson"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["02-25-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["hide"]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Text data mining and analysis"]},{"type":"character","attributes":{},"value":["Creating word clouds and sentiment analysis for J.K. Rowling's *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kirsten Hodgson"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["hide"]}]}]},{"type":"character","attributes":{},"value":["03-12-2021"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-2-1.png","text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-4-1.png"]}
+  {"type":"character","attributes":{},"value":["text-data-mining-and-analysis_files/anchor-4.2.2/anchor.min.js","text-data-mining-and-analysis_files/bowser-1.9.3/bowser.min.js","text-data-mining-and-analysis_files/distill-2.2.21/template.v2.js","text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-2-1.png","text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-3-1.png","text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-4-1.png","text-data-mining-and-analysis_files/header-attrs-2.6.6/header-attrs.js","text-data-mining-and-analysis_files/jquery-1.11.3/jquery.min.js","text-data-mining-and-analysis_files/popper-2.6.0/popper.min.js","text-data-mining-and-analysis_files/tippy-6.2.7/tippy-bundle.umd.min.js","text-data-mining-and-analysis_files/tippy-6.2.7/tippy-light-border.css","text-data-mining-and-analysis_files/tippy-6.2.7/tippy.css","text-data-mining-and-analysis_files/tippy-6.2.7/tippy.umd.min.js","text-data-mining-and-analysis_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2039,6 +2039,316 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    13px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base variables */
+
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`          */
+/* This must remain at the top of this file.                 */
+
+
+
+html {
+  /*-- Main font sizes --*/
+  --title-size:      50px;
+  --body-size:       1.06rem;
+  --code-size:       14px;
+  --aside-size:      12px;
+  --fig-cap-size:    10px;
+  /*-- Main font colors --*/
+  --title-color:     #000000;
+  --header-color:    rgba(0, 0, 0, 0.8);
+  --body-color:      rgba(0, 0, 0, 0.8);
+  --aside-color:     rgba(0, 0, 0, 0.6);
+  --fig-cap-color:   rgba(0, 0, 0, 0.6);
+  /*-- Specify custom fonts ~~~ must be imported above   --*/
+  --heading-font:    sans-serif;
+  --mono-font:       monospace;
+  --body-font:       sans-serif;
+  --navbar-font:     sans-serif;  /* websites + blogs only */
+}
+
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   rgba(0, 0, 0, 0.5);
+  --body-size:       0.8rem;
+  --body-color:      rgba(0, 0, 0, 0.8);
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   rgba(0, 0, 0, 0.65);
+  --text-size:       0.8em;
+  --text-color:      rgba(0, 0, 0, 0.5);
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
+
+.distill-site-header {
+  --title-size:       18px;
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+.distill-site-footer {
+  --text-color:       rgba(255, 255, 255, 0.8);
+  --text-size:        15px;
+  --hover-color:      white;
+  --bkgd-color:       #0F2E3D;
+}
+
+/*-- Additional custom styles --*/
+/* Add any additional CSS rules below                      */
+</style>
+<style type="text/css">
+/* base style */
+
+/* FONT FAMILIES */
+
+:root {
+  --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+.posts-list .post-preview p,
+.posts-list .description p {
+  font-family: var(--body-font), var(--body-default);
+}
+
+h1, h2, h3, h4, h5, h6,
+.posts-list .post-preview h2,
+.posts-list .description h2 {
+  font-family: var(--heading-font), var(--heading-default);
+}
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: var(--mono-font), var(--mono-default);
+}
+
+
+/*-- TITLE --*/
+d-title h1,
+.posts-list > h1 {
+  color: var(--title-color, black);
+}
+
+d-title h1 {
+  font-size: var(--title-size, 50px);
+}
+
+/*-- HEADERS --*/
+d-article h1,
+d-article h2,
+d-article h3,
+d-article h4,
+d-article h5,
+d-article h6 {
+  color: var(--header-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- BODY --*/
+d-article > p,  /* only text inside of <p> tags */
+d-article > ul, /* lists */
+d-article > ol {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+  font-size: var(--body-size, 1.06rem);
+}
+
+
+/*-- CODE --*/
+d-article div.sourceCode code,
+d-article pre code {
+  font-size: var(--code-size, 14px);
+}
+
+/*-- ASIDE --*/
+d-article aside {
+  font-size: var(--aside-size, 12px);
+  color: var(--aside-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- FIGURE CAPTIONS --*/
+figure .caption,
+figure figcaption,
+.figure .caption {
+  font-size: var(--fig-cap-size, 13px);
+  color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+}
+
+/*-- METADATA --*/
+d-byline h3 {
+  font-size: var(--heading-size, 0.6rem);
+  color: var(--heading-color, rgba(0, 0, 0, 0.5));
+}
+
+d-byline {
+  font-size: var(--body-size, 0.8rem);
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+d-byline a,
+d-article d-byline a {
+  color: var(--body-color, rgba(0, 0, 0, 0.8));
+}
+
+/*-- TABLE OF CONTENTS --*/
+.d-contents nav h3 {
+  font-size: var(--heading-size, 18px);
+}
+
+.d-contents nav a {
+  font-size: var(--contents-size, 13px);
+}
+
+/*-- APPENDIX --*/
+d-appendix h3 {
+  font-size: var(--heading-size, 15px);
+  color: var(--heading-color, rgba(0, 0, 0, 0.65));
+}
+
+d-appendix {
+  font-size: var(--text-size, 0.8em);
+  color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+d-appendix d-footnote-list a.footnote-backlink {
+  color: var(--text-color, rgba(0, 0, 0, 0.5));
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+.distill-site-header .title {
+  font-size: var(--title-size, 18px);
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.distill-site-header a,
+.nav-dropdown .nav-dropbtn {
+  font-family: var(--navbar-font), var(--heading-default);
+}
+
+.nav-dropdown .nav-dropbtn {
+  color: var(--text-color, rgba(255, 255, 255, 0.8));
+  font-size: var(--text-size, 15px);
+}
+
+.distill-site-header a:hover,
+.nav-dropdown:hover .nav-dropbtn {
+  color: var(--hover-color, white);
+}
+
+.distill-site-header {
+  font-size: var(--text-size, 15px);
+  color: var(--text-color, rgba(255, 255, 255, 0.8));
+  background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer {
+  font-size: var(--text-size, 15px);
+  color: var(--text-color, rgba(255, 255, 255, 0.8));
+  background-color: var(--bkgd-color, #0F2E3D);
+}
+
+.distill-site-footer a:hover {
+  color: var(--hover-color, white);
+}</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.6.6/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -2061,7 +2371,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Text data mining and analysis","description":"Creating word clouds and sentiment analysis for J.K. Rowling's *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*.","authors":[{"author":"Kirsten Hodgson","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-02-25T00:00:00.000+00:00","citationText":"Hodgson, 2021"}
+{"title":"Text data mining and analysis","description":"Creating word clouds and sentiment analysis for J.K. Rowling's *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*.","authors":[{"author":"Kirsten Hodgson","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-03-12T00:00:00.000+00:00","citationText":"Hodgson, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2075,8 +2385,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="nav-right">
 <a href="../../index.html">Home</a>
 <a href="../../aboutme.html">About Me</a>
-<a href="../../resume.html">Resume</a>
-<a href="../../blog.html">Blog</a>
+<a href="../../blog.html">Data Projects</a>
+<a href="../../resume_test.html">Resume</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2095,10 +2405,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="d-byline">
   Kirsten Hodgson true 
   
-<br/>02-25-2021
+<br/>03-12-2021
 </div>
 
 <div class="d-article">
+<h3 id="project-description">Project Description</h3>
+<p>Here, I wrangle text data from two books in J.K. Rowling’s <em>Harry Potter</em> series into tidy format, then explore the most common non-stop words in both books, using <code>patchwork</code> to visualize my graphics side-by-side. Then, I conduct sentiment analysis (using the AFINN Lexicon) on both books to compare positivity and negativity of each book by chapter. The two books I chose were <em>Harry Potter and the Philosopher’s Stone</em> and <em>Harry Potter and the Deathly Hallows</em>, made available through the <code>harrypotter</code> package on GitHub.</p>
+<h3 id="wrangling-the-data-into-tidy-format">1. Wrangling the Data into Tidy Format</h3>
+<p>In this section, I download the chosen books and wrangle them into tidy format, unnesting the text into chapters and removing extra white space. Then, I create a numbered chapter column and get tokens before removing stop words using <code>anti_join()</code>. Lastly, I get counts of each words throughout the entirety of each book.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2148,8 +2462,9 @@ hide
 </div>
 </details>
 </div>
-<h3 id="word-clouds">Word Clouds</h3>
+<h3 id="word-clouds">2. Word Clouds</h3>
 <h5 id="exploring-the-most-common-words-in-harry-potter-and-the-philosophers-stone-and-harry-potter-and-the-deathly-hallows">Exploring the most common words in <em>Harry Potter and the Philosopher’s Stone</em> and <em>Harry Potter and the Deathly Hallows</em></h5>
+<p>Here, I find the 100 most common words in both <em>Harry Potter</em> books by arranging them in decreasing order of count, then using <code>slice()</code> to keep only the first 100. I then create a word cloud for each book, using <code>geom_text_wordcloud()</code> from the <code>ggwordcloud</code> package. Finally, I use patchwork to arrange both word clouds next to each other.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2194,7 +2509,8 @@ hide
 <p><img src="text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-2-1.png" width="624" style="display: block; margin: auto;" /></p>
 </div>
 <p><strong>Figure 1.</strong> Word cloud exploration of the most common words in <em>Harry Potter and the Philosopher’s Stone</em> (left) and <em>Harry Potter and the Deathly Hallows</em> (right). The most common word in both novels is, unsurprisingly, “Harry”. Also common are the names of other main characters such as Hermione, Ron, and Dumbledore. Another valuable analysis would be to remove these common character names prior to counting word incidence.</p>
-<h3 id="sentiment-analysis">Sentiment Analysis</h3>
+<h3 id="sentiment-analysis">3. Sentiment Analysis</h3>
+<p>In this section, I join the AFINN lexicon to my list of non-stop words for each <em>Harry Potter</em> book, then find counts of sentiments for each chapter in order to find the mean value of sentiments by chapter. Next, I create separate column plots for each book of mean AFINN sentiment value by chapter, coloring the negative values in dark red and the positive in gold. Lastly, I use <code>patchwork</code> to display the column plots next to each other for easy comparison.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
@@ -2231,17 +2547,8 @@ hide
   <span class='fu'>summarize</span><span class='op'>(</span>mean_afinn <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>value</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>sign <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>mean_afinn</span> <span class='op'>&gt;=</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"positive"</span>,
                           <span class='va'>mean_afinn</span> <span class='op'>&lt;</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"negative"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-hide
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#Plot the mean afinn values for both books separately, with red colors for negative values and gold for positive</span>
+
+<span class='co'>#Plot the mean afinn values for both books separately, with red colors for negative values and gold for positive</span>
 <span class='va'>ps_afinn_plot</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ps_afinn_means</span>, 
                         <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>chapter</span>, 
                             y <span class='op'>=</span> <span class='va'>mean_afinn</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -2271,15 +2578,19 @@ hide
 </code></pre>
 </div>
 </details>
-<p><img src="text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-4-1.png" width="624" style="display: block; margin: auto;" /></p>
+<p><img src="text-data-mining-and-analysis_files/figure-html5/unnamed-chunk-3-1.png" width="624" style="display: block; margin: auto;" /></p>
 </div>
 <p><strong>Figure 2.</strong> Sentiment analysis by chapter of <em>Harry Potter and the Philosopher’s Stone</em> (left) and <em>Harry Potter and the Deathly Hallows</em> (right) using the AFINN Sentiment Lexicon to calculate mean chapter sentiment on a scale of positivity/negativity. Both books are overwhelmingly negative, though <em>Harry Potter and the Deathly Hallows</em> is more so, with a larger number of chapters having more negative mean scores. In both books, only two chapters have positive mean scores. Notably, the last chapter of <em>Harry Potter and the Deathly Hallows</em> is mean positive. This aligns with the text as this chapter is the epilogue, which ends the entire series with the line “All was well”.</p>
 <h4 id="data-cited">Data cited:</h4>
 <p>Data mined from the <em>Harry Potter</em> series:</p>
-<p>Rowling, J.K. <em>Harry Potter and the Philosopher’s Stone</em>. London: Bloomsbury, 1997. Print.</p>
-<p>Rowling, J.K. <em>Harry Potter and the Deathly Hallows</em>. London: Bloomsbury, 2007. Print.</p>
+<ul>
+<li><p>Rowling, J.K. <em>Harry Potter and the Philosopher’s Stone</em>. London: Bloomsbury, 1997. Print.</p></li>
+<li><p>Rowling, J.K. <em>Harry Potter and the Deathly Hallows</em>. London: Bloomsbury, 2007. Print.</p></li>
+</ul>
 <p>Data made available by:</p>
-<p>Boehmke, B. (2016). harrypotter: An R Package for J.K. Rowling’s Harry Potter Series. <a href="https://github.com/bradleyboehmke/harrypotter" class="uri">https://github.com/bradleyboehmke/harrypotter</a></p>
+<ul>
+<li>Boehmke, B. (2016). harrypotter: An R Package for J.K. Rowling’s Harry Potter Series. <a href="https://github.com/bradleyboehmke/harrypotter" class="uri">https://github.com/bradleyboehmke/harrypotter</a></li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -1,0 +1,82 @@
+---
+title: "Principal Components Analysis"
+description: |
+  Conducting and visualizing principal components analysis of nutrient levels in herbs and spices.
+author:
+  - name: Kirsten Hodgson
+    url: {}
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(ggfortify)
+```
+
+### Project Description
+
+Here, I will complete a principal components analysis (PCA) on the vitamin and nutrient content of common herbs and spices, as categorized by the U.S. Department of Agriculture (USDA). While the National Nutrient Database contains information on many more food types and their content of various nutrients, I will focus only on common, nutritionally important vitamins and minerals in the listed herbs and spices. My PCA will explore the variation in nutrient levels in these common herbs and spices.
+
+In this first section, I read in data from the USDA, then conduct basic tidying to convert to lower snake case for ease of wrangling later on.
+
+```{r}
+usda_nutrients <- read_csv(here("data","usda_nutrients.csv")) %>% 
+  clean_names() %>% 
+  mutate(across(where(is.character), tolower))
+```
+
+### 1. Principal Components Analysis (PCA)
+
+In this section, I wrangle the USDA data to include only foods from the "herbs and spices" group, then retain only nutritional data for common vitamins and minerals of interest. I alter the column names to prepare for later biplot visualization, then scale the data and conduct principal components analysis. Lastly, I create an identical data set for labeling before creating a biplot visualization of the PCA.
+
+```{r, fig.align='center'}
+spices_nutrients <- usda_nutrients %>% #Create a subset
+  filter(food_group == "spices and herbs") %>% #Only containing spices and herbs
+  select(ends_with("_mg"), ends_with("_mcg")) %>% #And selecting a few vitamins and nutrients of interest
+  select(vit_b6_mg:iron_mg, vit_a_mcg, folate_mcg)
+
+#Change the column names for labeling later:
+colnames(spices_nutrients) = c("Vitamin B6", "Vitamin C", "Vitamin E", "Niacin", "Riboflavin", "Thiamin", "Calcium", "Iron", "Magnesium", "Manganese", "Phosphorus", "Zinc", "Vitamin A", "Folate", "Copper", "Selenium")
+
+spices_nutrients_pca <- spices_nutrients %>% #Run PCA on the subset
+  drop_na() %>% 
+  scale() %>% 
+  prcomp()
+
+#spices_nutrients_pca$rotation
+
+nutrients_complete <- usda_nutrients %>% #Create another subset with identical data
+  filter(food_group == "spices and herbs") %>% 
+  select(ends_with("_mg"), ends_with("_mcg")) %>% 
+  select(vit_b6_mg:iron_mg, vit_a_mcg, folate_mcg) %>% 
+  drop_na(ends_with("_mg"), ends_with("_mcg"))
+  
+autoplot(spices_nutrients_pca, #Create biplot of the PCA
+         data = nutrients_complete, #Where data comes from the identical subset
+         colour = "gray", #Where points are gray
+         loadings = TRUE, #Loadings are shown
+         loadings.label = TRUE, #With loadings labels
+         loadings.colour = "darkslategray", #Loadings are dark gray
+         loadings.label.colour = "red", #And labels are red for contrast
+         loadings.label.size = 3, #Also size is changed
+         loadings.label.repel = T) + #And loadings labels don't overlap each other
+  theme_minimal()
+```
+
+**Figure 1.** Principal Components Analysis of variance in nutrient content (common vitamins and minerals, dark gray arrows) of common herbs and spices (light gray dots) as classified by the U.S. Department of Agriculture. Principal components explain 64.84% of the total variance (PC1 = 45.87%, PC2 = 18.97%). Data source: U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov.
+
+### 2. Interpretation of Results
+
+From the biplot, we can see that the first two principal components explain 64.84% of the variance in nutrient content of the considered herbs and spices. There are distinct groups of variables (nutrients)  which are closely positively correlated: for instance, vitamin E and magnesium have a correlation close to 1, as do riboflavin, vitamin B6, and niacin. Also closely positively correlated are calcium, iron, manganese, thiamin, and vitamin C. No nutrients are negatively correlated. Vitamin E and calcium are the two nutrients nearest to 90 degrees from each other, and thus are the two nutrients with a correlation closest to 0. The observed herbs and spices are mostly distributed over the biplot, with one distinct cluster of three observations, located near the PC1 axis, which are more similar to each other in multivariate space than they are to the other observations.
+
+#### Data source: 
+
+U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov.

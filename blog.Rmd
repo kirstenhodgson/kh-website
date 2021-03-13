@@ -1,4 +1,4 @@
 ---
-title: "Blog"
+title: "Data exploration and analysis projects"
 listing: posts
 ---

@@ -5,7 +5,6 @@ description: |
 author:
   - name: Kirsten Hodgson
     url: {}
-date: 02-25-2021
 output:
   distill::distill_article:
     self_contained: false
@@ -23,6 +22,14 @@ library(harrypotter)
 library(ggwordcloud)
 library(patchwork)
 ```
+
+### Project Description
+
+Here, I wrangle text data from two books in J.K. Rowling's *Harry Potter* series into tidy format, then explore the most common non-stop words in both books, using `patchwork` to visualize my graphics side-by-side. Then, I conduct sentiment analysis (using the AFINN Lexicon) on both books to compare positivity and negativity of each book by chapter. The two books I chose were *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*, made available through the `harrypotter` package on GitHub.
+
+### 1. Wrangling the Data into Tidy Format
+
+In this section, I download the chosen books and wrangle them into tidy format, unnesting the text into chapters and removing extra white space. Then, I create a numbered chapter column and get tokens before removing stop words using `anti_join()`. Lastly, I get counts of each words throughout the entirety of each book.
 
 ```{r message = F, warning = F}
 ps_tidy <- data.frame(philosophers_stone) %>% #Primary wrangling for philosopher's stone
@@ -66,9 +73,12 @@ dh_nonstop_words <- dh_tokens %>%
 dh_nonstop_counts <- dh_nonstop_words %>% count(word)
 ```
 
-### Word Clouds
+### 2. Word Clouds
 
 ##### Exploring the most common words in *Harry Potter and the Philosopher's Stone* and *Harry Potter and the Deathly Hallows*
+
+Here, I find the 100 most common words in both *Harry Potter* books by arranging them in decreasing order of count, then using `slice()` to keep only the first 100. I then create a word cloud for each book, using `geom_text_wordcloud()` from the `ggwordcloud` package. Finally, I use patchwork to arrange both word clouds next to each other.
+
 ```{r, fig.align="center"}
 #Find the top 100 words in deathly hallows and set the angle for 30% of them to 90 degrees
 dh_top_100 <-
@@ -105,9 +115,11 @@ ps_dh_cloud
 ```
 **Figure 1.** Word cloud exploration of the most common words in *Harry Potter and the Philosopher's Stone* (left) and *Harry Potter and the Deathly Hallows* (right). The most common word in both novels is, unsurprisingly, "Harry". Also common are the names of other main characters such as Hermione, Ron, and Dumbledore. Another valuable analysis would be to remove these common character names prior to counting word incidence.
 
-### Sentiment Analysis
+### 3. Sentiment Analysis
 
-```{r message = F, warning = F}
+In this section, I join the AFINN lexicon to my list of non-stop words for each *Harry Potter* book, then find counts of sentiments for each chapter in order to find the mean value of sentiments by chapter. Next, I create separate column plots for each book of mean AFINN sentiment value by chapter, coloring the negative values in dark red and the positive in gold. Lastly, I use `patchwork` to display the column plots next to each other for easy comparison.
+
+```{r message = F, warning = F, fig.align="center"}
 #Get the afinn lexicon data
 afinn <- get_sentiments("afinn")
 
@@ -138,9 +150,7 @@ dh_afinn_means <- dh_afinn %>%
   summarize(mean_afinn = mean(value)) %>% 
   mutate(sign = case_when(mean_afinn >= 0 ~ "positive",
                           mean_afinn < 0 ~ "negative"))
-```
 
-```{r, fig.align = "center"}
 #Plot the mean afinn values for both books separately, with red colors for negative values and gold for positive
 ps_afinn_plot <- ggplot(data = ps_afinn_means, 
                         aes(x = chapter, 
@@ -175,11 +185,12 @@ ps_dh_afinn_plot
 
 Data mined from the *Harry Potter* series:
 
-Rowling, J.K. *Harry Potter and the Philosopher’s Stone*. London: Bloomsbury, 1997. Print.
+- Rowling, J.K. *Harry Potter and the Philosopher’s Stone*. London: Bloomsbury, 1997. Print.
 
-Rowling, J.K. *Harry Potter and the Deathly Hallows*. London: Bloomsbury, 2007. Print.
+- Rowling, J.K. *Harry Potter and the Deathly Hallows*. London: Bloomsbury, 2007. Print.
+
 
 Data made available by:
 
-Boehmke, B. (2016). harrypotter: An R Package for J.K. Rowling's Harry Potter Series. https://github.com/bradleyboehmke/harrypotter
+- Boehmke, B. (2016). harrypotter: An R Package for J.K. Rowling's Harry Potter Series. https://github.com/bradleyboehmke/harrypotter
 

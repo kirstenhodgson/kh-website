@@ -5,7 +5,6 @@ description: |
 author:
   - name: Kirsten Hodgson
     url: {}
-date: 02-25-2021
 output:
   distill::distill_article:
     self_contained: false
@@ -23,6 +22,10 @@ library(sf)
 library(tmap)
 library(viridis)
 ```
+
+### Project Description
+
+This project is an exploration of spatial data and of different ways to map spatial data in R. Using oil spill data from the California of Fish and Game, I first create an interactive exploratory map in `tmap`, then create a finalized chloropleth map of inland oil spill events by California county using `ggplot()`.
 
 ```{r}
 #Read in the oil spill layer:
@@ -47,8 +50,10 @@ ca_counties <- st_transform(ca_counties, st_crs(ca_oilspill))
 
 ### 1. Exploratory oil spill location visualization using `tmap`
 
+Having read in the data and confirmed matching CRS in the code chunk above, here I use `tmap` to create an exploratory map of all oil spills in California from the data set.
+
 ```{r}
-tmap_mode("view")
+tmap_mode("view") #Set tmap mode to view (for interactive map)
 
 tm_shape(ca_oilspill) + #Make a tmap map of oilspill locations
   tm_dots() + #Where dots represent oil spill events
@@ -59,7 +64,9 @@ tm_shape(ca_oilspill) + #Make a tmap map of oilspill locations
 
 ### 2. Chloropleth of inland oil spill events in 2008
 
-```{r, fig.align = "center"}
+Now, I wrangle the data set to contain counts of inland oil spill events in 2008 by county. I then plot this data in `ggplot()` as a chloropleth, using the TIGER shapefiles of California counties to map events by county. Modoc County, which had zero inland oil spill events in 2008, is mapped in gray alongside the chloropleth to indicate that there is no data.
+
+```{r, fig.align="center"}
 #Wrangling: Want counts of inland oil spill events by county in 2008
 modoc <- ca_counties %>% 
   filter(name == "Modoc") #Make a df with just modoc county for use later
@@ -89,4 +96,4 @@ ggplot(data = ca_oilspill_counts) + #Graph from this count data
 "TIGER/Line Shapefiles." *U.S. Census Bureau.* Sourced through California Open Data Portal, https://data.ca.gov/dataset/ca-geographic-boundaries
 
 ##### California oil spill data:
-"Oill Spill Incident Trackin [ds394]". *California Department of Fish and Game, Office of Spill Prevention and Response.* 2008. https://map.dfg.ca.gov/metadata/ds0394.html
+"Oil Spill Incident Tracking [ds394]". *California Department of Fish and Game, Office of Spill Prevention and Response.* 2008. https://map.dfg.ca.gov/metadata/ds0394.html

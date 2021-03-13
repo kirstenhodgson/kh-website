@@ -1,0 +1,70 @@
+---
+title: "Kirsten Hodgson"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+kirstenarhodgson@gmail.com | (707) 364-1049 | Sonoma, CA | [LinkedIn](https://www.linkedin.com/in/kirsten-hodgson-a514a0163/)
+
+
+#### **EDUCATION**
+
+
+| **Master of Environmental Science and Management**, 4.0 GPA (Expected June 2022)
+
+| **Bren School of Environmental Science & Management - University of California, Santa Barbara (UCSB)**
+
+- *Specialization:* Conservation Planning | *Focus:* Strategic Environmental Communication
+- *Fellowship:* Forest Sustainability Fellowship (awarded $22,352)
+- *Highlighted Coursework:* Science and Management for Forest Sustainability, Environmental Writing
+  
+| **Bachelor of Science in Biological Sciences**, 3.95 GPA (June 2018)
+
+| **University of California, Davis (UC Davis)**
+
+- *Emphasis:* Evolution, Ecology, and Biodiversity
+- *Honors/Awards:* Graduated with highest honors (2018), Regents Scholarship (2014-2018), Citation Award for Outstanding Performance in Biological Sciences (2018)
+
+#### **ENVIRONMENTAL & COMMUNICATION EXPERIENCE**
+
+
+| **Sonoma Water**, Santa Rosa, CA (12/18-9/20)
+
+| **Water and Energy Education Technician** (8/19-9/20)
+
+- Organized logistics including setup and materials acquisition for professional development
+workshops focusing on biodiversity and wildlife conservation lessons for 30+ local teachers
+- Developed and authored climate change lesson plans teaching 2 crews of young adults up to 10 in
+size, including curriculum outlining steps for crew leaders to lead lessons
+- Created artistic pieces to enhance lesson effectiveness, including drawings and recorded videos
+- Managed scheduling of 30+ schools for kindergarten program, including communicating with
+teachers and coordinating schedules of 10-person team to avoid conflicts
+- Coordinated with other school departments and outside public agencies to plan and implement an
+internship expo for young adults to meet with potential county government employers
+- Converted lessons to virtual format upon pandemic-related school closure with 10-person team
+
+| **Water and Energy Education Intern** (12/18-7/19)
+
+- Participated in collection and data entry using GIS of 3 native salmonid species in the Sonoma
+County Russian River watershed to monitor the efficacy of recent conservation measures
+- Contributed artistic components such as time-lapse drawings and visual models to ongoing projects
+- Analyzed land-use classifications of critical locations along pipeline and entered information in Excel
+for permitting purposes in planning stage of aqueduct update project
+- Taught programs covering climate change, water resources, and riparian habitat to school-aged
+children from kindergarten through high school to inspire next generation of change-makers
+- Updated existing programs through activity development and modification in cooperation with
+other staff, particularly to increase compliance with new NGSS teaching standards
+
+#### **SKILLS & AFFILIATIONS**
+
+
+| **Computer:** Microsoft Office (Excel, Word, Powerpoint)
+
+| **Data Collection and Analysis:** R, GIS, Gas chromatography, DNA extraction
+
+| **Communication:** Scientific writing, NGSS-compliant teaching practices
+
+| **Affiliations:** Phi Beta Kappa honors society (inducted 2017), Phi Kappa Phi honors society (inducted 2018)

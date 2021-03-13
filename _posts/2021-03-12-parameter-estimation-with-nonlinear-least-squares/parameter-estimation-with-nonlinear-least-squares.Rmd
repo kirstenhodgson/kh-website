@@ -1,0 +1,129 @@
+---
+title: "Parameter Estimation with Nonlinear Least Squares"
+description: |
+  Using nonlinear least squares to predict annual wild fish catch.
+author:
+  - name: Kirsten Hodgson
+    url: {}
+output:
+  distill::distill_article:
+    self_contained: false
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(stats)
+library(broom)
+library(nlstools)
+library(gt)
+```
+
+### Project Description
+
+Here, I use nonlinear least squares (NLS) to estimate the parameters for annual wild fish catch, using data from the U.N. Food and Agriculture Organization. In this instance, I use NLS to estimate the parameters for a logistic growth model, then use those parameters to predict catch and visualize the predictions with actual values.
+
+### 1. Data Wrangling and Exploration
+
+First, I wrangle the data into tidy format and create an exploratory visualization of the data in order to identify trends:
+
+```{r}
+#Read in data:
+fish_catch <- read_csv(here("data", "fish_catch.csv")) 
+
+#Rename variables and remove empty rows at top and bottom of data frame, create a new column numbering years starting at 0, change wild catch to class numeric
+fish_clean <- fish_catch %>% 
+  rename("year" = "World Wild Fish Catch and Farmed Fish Production, 1950-2012",
+         "wild_catch_mil_tons" = "X2",
+         "farmed_mil_tons" = "X3",
+         "total_prod_mil_tons" = "X4") %>% 
+  slice(-1:-4, -68:-71) %>% 
+  mutate(year_adj = 0:(n() - 1)) %>% 
+  mutate(wild_catch_mil_tons = as.numeric(wild_catch_mil_tons))
+
+#Exploratory visualization:
+ggplot(data = fish_clean,
+       aes(x = year, y = wild_catch_mil_tons)) +
+  geom_point() +
+  scale_y_continuous(limits = c(15,95), #Change scales to make the trend more visible
+                     breaks = seq(from = 15, to = 95, by = 5))
+
+#Estimating *r*:
+fish_exp <- fish_clean %>% 
+  filter(year_adj < 35) %>% #Filter to only keep years where trend looks exponential
+  mutate(ln_catch = log(wild_catch_mil_tons)) #Change to log form
+
+#Calculate the linear model to get estimate
+lm_r <- lm(ln_catch ~ year_adj, data = fish_exp)
+#lm_r
+```
+
+The trend is described by a logistic growth relationship, with an equation like:
+$P(t)=\frac{K}{1+Ae^{-rt}}$, where
+
+- $K$ is the carrying capacity of the fishery
+- $A$ is $\frac{K-P_0}{P_0}$
+- $r$ is the growth rate constant
+
+My initial estimates for $K$, $A$, and $r$ are:
+
+- $K$ ~ $95$ (million tons)
+- $A$ = $\frac{95 - 10}{10}$ ~ $8.5$
+- $r$ ~ $0.03686$
+
+
+### 2. Using Nonlinear Least Squares to Estimate Parameters
+
+In this section, I run NLS to estimate more accurate parameters from my initial estimates.
+
+```{r}
+#Run nonlinear least squares on wild catch with first parameter estimates
+wild_fish_nls <- nls(wild_catch_mil_tons ~ K/(1 + A*exp(-r*year_adj)),
+              data = fish_clean,
+              start = list(K = 95, A = 8.5, r = 0.03686))
+
+#See the model summary (null hypothesis: parameter value = 0)
+#summary(wild_fish_nls)
+
+#Use broom:: functions to get model outputs in tidier format:
+fish_model_out <- broom::tidy(wild_fish_nls)
+```
+
+After running nonlinear least squares, the estimated parameters are:
+
+- $K$ ~ `r round(fish_model_out$estimate[1],2)` million tons
+- $A$ ~ `r round(fish_model_out$estimate[2],2)` million tons
+- $r$ ~ `r round(fish_model_out$estimate[3],4)` million tons/year
+
+
+### 3. Visualizing Data with Estimated Parameters
+
+Lastly, I make predictions for wild catch based on my estimated parameters. Then, I create a visualization that compares the predicted values from my model (blue line) to the actual observed values for every year in the original data set (black dots). This comparison allows me to visualize the accuracy of my model.
+
+```{r}
+#Make predictions for the catch at all years in the original fish data:
+wild_catch_predict <- predict(wild_fish_nls)
+
+#Bind predictions to original data frame:
+catch_complete <- data.frame(fish_clean, wild_catch_predict)
+
+#Plot them all together:
+ggplot(data = catch_complete, aes(x = year, y = wild_catch_predict, group =1)) +
+  geom_line(color = "royalblue") + #Plot predicted values as blue line
+  geom_point(aes(x = year, y = wild_catch_mil_tons)) + #And actual values as points
+  theme_minimal() +
+  scale_y_continuous(limits = c(10,100), #Change the axis limits for clarity (x axis at line 110)
+                     breaks = seq(from = 10, to = 100, by = 10))  +
+  labs(x = "\nYear",
+       y = "Wild fish catch (millions of tons)\n",
+       title = "Predicted and actual wild fish catch, 1950-2012") +
+  scale_x_discrete(breaks = c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2005,2010))
+```
+
+#### Data cited:
+
+Global wild fish catch and aquaculture production, compiled by Earth Policy Institute with 1950-2010 from U.N. Food and Agriculture Organization (FAO), Global Capture Production and Global Aquaculture Production, electronic databases, at www.fao.org/fishery/topic/16140/en
